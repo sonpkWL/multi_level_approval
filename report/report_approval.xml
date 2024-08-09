@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <report
+        id="report_approval"
+        string="Printer"
+        model="multi.approval"
+        report_type="qweb-pdf"
+        name="multi_level_approval.report_proposal_approval"
+        file="multi_level_approval.report_proposal_approval" />
+    
+
+</odoo>

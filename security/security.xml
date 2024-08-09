@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+    <record id="multi_level_approval" model="ir.module.category">
+        <field name="name">Approvals</field>
+    </record>
+
+    <record id="group_approval_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="multi_level_approval"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_approval_quan_ly" model="res.groups">
+        <field name="name">Quản lý</field>
+        <field name="category_id" ref="multi_level_approval"/>
+        <field name="implied_ids" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>
+    </record>
+
+    <record id="group_approval_manager" model="res.groups">
+        <field name="name">Settings</field>
+        <field name="category_id" ref="multi_level_approval"/>
+        <field name="implied_ids" eval="[(4, ref('multi_level_approval.group_approval_user')), (4, ref('multi_level_approval.group_approval_quan_ly'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="id_multi_approval_type_user_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval: Read Only</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval_type"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="domain_force">['|', '|', ('line_ids.user_id', '=', user.id)
+            , ('nhamaywl_opt', '=', False)
+            , ('nhamaywl_opt','=', user.env['hr.employee'].search([('user_id', '=', user.id)], limit=1).nhamaywl.id)]
+        </field>
+    </record>
+
+
+
+<!--    <record id="id_message_multi_approval_user_rule" model="ir.rule">-->
+<!--        <field name="name">Rule message on Multi Approval: Read Only</field>-->
+<!--        <field name="model_id" ref="multi_level_approval.model_multi_approval"/>-->
+<!--        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>-->
+<!--        <field name="perm_create" eval="0"/>-->
+<!--        <field name="perm_write" eval="0"/>-->
+<!--        <field name="perm_unlink" eval="0"/>-->
+<!--        <field name="perm_read" eval="1"/>-->
+<!--        <field name="domain_force">[('message_partner_ids', 'in', [user.partner_id.id])]-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="id_multi_approval_on_unlink_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval: Delete Draft Request Only</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+        <field name="global" eval="True"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="0"/>
+        <field name="domain_force">[('state','=', 'Draft')]</field>
+    </record>
+
+    <record id="id_multi_approval_type_on_write_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval Type: Write Only</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval_type"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>
+<!--        <field name="global" eval="True"/>-->
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="0"/>
+        <field name="domain_force">[('bvnm','=', user.env['hr.employee'].search([('description', '=', 'BVNM')]).user_id.id)]</field>
+    </record>
+
+    <record id="id_multi_approval_on_write_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval: Write Only</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="0"/>
+        <field name="domain_force">[('bvnm','=', user.env['hr.employee'].search([('description', '=', 'BVNM')]).user_id.id)]</field>
+    </record>
+
+    <record id="id_multi_approval_user_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval: Read my own</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>
+        <field name="domain_force">['|','|', ('user_id','=', user.id), ('user_id','=', False), ('lines_ids', 'in', user.id)]</field>
+    </record>
+    <record id="id_multi_approval_follower_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval: Followers</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>
+        <field name="domain_force">[('follower','like', user.env['multi.approval'].get_follow_key())]</field>
+    </record>    
+    <record id="id_multi_approval_setting_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval: Admin</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_manager'))]"/>
+        <field name="domain_force">[(1,'=', 1)]</field>
+    </record>
+    <record id="id_multi_approval_setting_type_user_rule" model="ir.rule">
+        <field name="name">Rule on Multi Approval: Admin</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval_type"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_manager'))]"/>
+        <field name="domain_force">[(1,'=', 1)]</field>
+    </record>
+</data>
+    <record id="id_employee_multi_approval_type_user_rule" model="ir.rule">
+        <field name="name">Rule on security Employee Multi Approval: Read Only</field>
+        <field name="model_id" ref="multi_level_approval.model_multi_approval_type"/>
+        <field name="groups" eval="[(4, ref('multi_level_approval.group_approval_user'))]"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="domain_force">[('id', 'in', user.env['hr.employee'].search([('user_id', '=', user.id)], limit=1).multi_approval_type_ids.ids)]
+        </field>
+    </record>
+</odoo>

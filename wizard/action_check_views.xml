@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="check_out_view_form" model="ir.ui.view">
+        <field name="name">check_out_view_form</field>
+        <field name="model">check.in.out</field>
+        <field name="arch" type="xml">
+            <form string="Xác nhận">
+                <div>
+                    <p>
+                        Bạn có chắc chắn chọn thời gian hiện tại?
+                    </p>
+                </div>
+                <footer>
+                    <button name="action_check" string="Có" type="object" class="btn-primary"/>
+                    <button string="Hủy" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="check_out_action" model="ir.actions.act_window">
+        <field name="name">Check out</field>
+        <field name="res_model">check.in.out</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="multi_level_approval.check_out_view_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <template id="assets_backend" name="quick_search_time_range" inherit_id="web.assets_backend">-->
+<!--        <xpath expr="." position="inside">-->
+<!--            <script type="text/javascript" src="/quick_search_time_range/static/src/js/date_range_gm.js"></script>-->
+<!--            <script type="text/javascript" src="/quick_search_time_range/static/src/js/control_panel.js"></script>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+    <record id="report_multi_approval_ra_cong_view_tree" model="ir.ui.view">
+        <field name="name">report_multi_approval_ra_cong_view_tree</field>
+        <field name="model">report.multi.approval.ra.cong</field>
+        <field name="arch" type="xml">
+            <tree string="Approvals" import="false">
+<!--                <field name="priority" widget="priority" optional="hidden"/>-->
+                <field name="code"/>
+                <field name="name" />
+                <field name="mnv"/>
+                <field name="user_id" />
+                <field name="request_date" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="reason_wl"/>
+                <field name="user_approve" optional="hidden"/>
+                <field name="time_out"/>
+                <field name="time_in"/>
+<!--                <field name="deadline" />-->
+                <field name="state" />
+                <field name="nha_may" optional="hidden"/>
+<!--                <field name="type_id" />-->
+            </tree>
+        </field>
+    </record>
+    <record id="report_multi_approval_ra_cong_view_filter" model="ir.ui.view">
+        <field name="name">report_multi_approval_ra_cong_view_filter</field>
+        <field name="model">report.multi.approval.ra.cong</field>
+        <field name="arch" type="xml">
+            <search string="Approvals">
+                <filter string="My Request" name="my_request" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <field name="code"/>
+                <field name="name"/>
+                <separator/>
+                <filter string="My Approvals" name="my_approval" domain="[('user_approve','=',uid)]"/>
+                <filter string="To Review" name="to_review" domain="[('user_approve','=', uid), ('state', '=', 'Submitted')]"/>
+<!--                <filter name="date_start" date="current_time" default_period="this_year" string="Năm hiện hành"/>-->
+                <filter string="Được Duyệt" name="to_approval" domain="[('state','=','Approved')]"/>
+                <separator/>
+                <field name="user_id" />
+                <field name="user_approve" />
+                <field name="type_id" />
+                <group expand="1" string="Group By">
+                    <filter string="User" name='user' context="{'group_by':'user_id'}"/>
+                    <filter string="Type" name="type_id" context="{'group_by':'type_id'}"/>
+                    <filter string="Status" name="status" context="{'group_by':'state'}"/>
+                    <separator orientation="vertical" />
+                    <filter string="Request Date" name="date" context="{'group_by':'date_start:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="report_multi_approval_ra_cong_view_form" model="ir.ui.view">
+        <field name="name">report_multi_approval_ra_cong_view_form</field>
+        <field name="model">report.multi.approval.ra.cong</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+
+                    <div class="oe_title">
+                        <label for="type_id" string="Loại đề xuất" class="oe_edit_only" />
+                        <h1>
+                            <field name="type_id"
+                                    options="{'no_create': True, 'no_open': True}" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <group>
+                                <field name="code" readonly="1"/>
+                            </group>
+                        </h2>
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" placeholder="Nhập tiêu đề"/>
+                        </h1>
+<!--                        <field name="priority" widget="priority"/>-->
+                    </div>
+                    <div style="background: rgb(245, 245, 245);margin: 0px !important;padding: 0px 10px;border: 1px solid rgb(207, 207, 207);">
+                        <group>
+                            <group>
+                                <field name="user_id" readonly="1"/>
+                                <field name="request_date"/>
+<!--                                <field name="deadline" readonly="1"/>-->
+                                <field name="user_approve" readonly="1"/>
+                            </group>
+                            <group>
+                                <label for="date_start" string="Ngày"/>
+                                <div>
+                                    <div>
+                                    <span>From: </span><field name="date_start" class="oe_inline"/>
+                                    </div>
+                                    <div>
+                                    <span>to: </span><field name="date_end" class="oe_inline"/>
+                                    </div>
+                                </div>
+                                <field name="reason_wl"/>
+                                <field name="time_out"/>
+                                <field name="time_in"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <notebook>
+                        <page string="Mô tả" name="description">
+                            <field name="description" nolabel="1" placeholder='Mô tả'/>
+                        </page>
+<!--                        <page string="Các người duyệt" name="approver" attrs="{'invisible': [('state', 'in', ['Draft', 'Cancel'])]}">-->
+<!--                            <field name="line_ids">-->
+<!--                                <tree editable="top" create='false' delete='false'>-->
+<!--                                    <field name="name" readonly="1"/>-->
+<!--                                    <field name="user_id" readonly="1"/>-->
+<!--&lt;!&ndash;                                    <field name="require_opt" readonly="1"/>&ndash;&gt;-->
+<!--                                    <field name="deadline" attrs="{'readonly': [('state', 'not in', ('draft', 'Waiting for Approval'))]}"/>-->
+<!--                                    <field name="state" readonly="1"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--    <record id="multi_approval_view_kanban" model="ir.ui.view">-->
+<!--        <field name="name">multi_approval_view_kanban</field>-->
+<!--        <field name="model">multi.approval</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <kanban class="o_modules_kanban" import="false">-->
+<!--                <field name="name" />-->
+<!--                <field name="id" />-->
+<!--                <field name="image" />-->
+<!--                <field name="code" />-->
+<!--                <templates>-->
+<!--                    <t t-name="kanban-box">-->
+<!--                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">-->
+<!--                            <t t-if="record.id">-->
+<!--                                <img t-att-src="kanban_image('multi.approval', 'image', record.id.raw_value)" alt="Approval Image" class="oe_kanban_avatar float-left mr-3" width="64"-->
+<!--                                    height="64" />-->
+<!--                            </t>-->
+<!--                            <div class="oe_module_desc">-->
+<!--                                <h4 class="o_kanban_record_title">-->
+<!--                                    <field name="code" />-->
+<!--                                </h4>-->
+<!--                                <p class="oe_module_name">-->
+<!--                                    <field name="name" />-->
+<!--                                </p>-->
+<!--                                <div class="oe_module_action" t-if="!selection_mode">-->
+<!--                                    <p class="">-->
+<!--                                        <field name="priority" widget="priority" />-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </t>-->
+<!--                </templates>-->
+<!--            </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

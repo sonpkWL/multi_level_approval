@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="multi_approval_type_action" model="ir.actions.act_window">
+        <field name="name">Đề xuất</field>
+        <field name="res_model">multi.approval.type</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="view_id" eval="False" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new approval type
+            </p>
+        </field>
+    </record>
+    <record id="multi_approval_action" model="ir.actions.act_window">
+        <field name="name">Đề xuất</field>
+        <field name="res_model">multi.approval</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="view_id" eval="False" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new approval request
+            </p>
+        </field>
+    </record>
+    <record id="multi_approval_approval_action" model="ir.actions.act_window">
+        <field name="name">My Approvals</field>
+        <field name="res_model">multi.approval</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_to_review': 1,
+                                'search_default_to_racong': 1}</field>
+        <field name="view_id" eval="False" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new approval request
+            </p>
+        </field>
+    </record>
+    <record id="multi_approval_request_action" model="ir.actions.act_window">
+        <field name="name">My Requests</field>
+        <field name="res_model">multi.approval</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_my_request': 1,
+                                'search_default_my_approval_cancel': 1}</field>
+        <field name="view_id" eval="False" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new approval request
+            </p>
+        </field>
+    </record> 
+    <record id="report_multi_approval_don_ra_cong_action" model="ir.actions.act_window">
+        <field name="name">Approvals</field>
+        <field name="res_model">report.multi.approval.ra.cong</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_to_approval': 1}</field>
+        <field name="view_id" eval="False" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new approval request
+            </p>
+        </field>
+    </record> 
+   <record id="action_report_multi_approval_van_phong_pham" model="ir.actions.act_window">
+       <field name="name">Báo cáo văn phòng phẩm</field>
+       <field name="res_model">report.multi.approval.van.phong.pham</field>
+       <field name="view_mode">tree,form</field>
+   </record> 
+    <record id="multi_approval_approval_action_leave_url" model="ir.actions.act_url">
+        <field name="name">Nghi phep</field>
+        <field name="url">https://wl20.woodsland.vn/web#action=670&amp;model=hr.leave&amp;view_type=calendar&amp;cids=1&amp;menu_id=448</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="multi_approval_approval_action_leave" model="ir.actions.act_window">
+        <field name="name">Nghi phep</field>
+        <field name="res_model">hr.leave</field>
+        <field name="view_mode">calendar,tree,form,activity</field>
+        <field name="view_id" ref="hr_holidays.hr_leave_action_new_request"/>
+        <field name="domain">[('user_id', '=', uid), ('employee_id.company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'short_name': 1, 'search_default_active_time_off': 1}</field>
+
+    </record>
+</odoo>

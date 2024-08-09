@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- approvals -->
+    <template id="report_proposal_approvals" >
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="">
+                    <div class="row">
+                        <div class="col-3" style="text-align: center; margin-top: 10px;">
+                            <p   style="font-weight: bold; text-transform: uppercase">Người tạo đề xuất </p>
+                            <p>Chữ ký</p>
+                            <p><t t-esc="o.user_id.name" /></p>
+                        </div>
+                        <div class="col-3" t-foreach="o.line_ids" t-as="approvals" style="text-align: center; margin-top: 10px;">
+                            <div t-if="approvals.state != 'Draft'" >
+                                <p style="font-weight: bold; text-transform: uppercase"><t t-esc="approvals.name" /></p>
+                                <p >
+                                    <t t-if="approvals.state == 'Approved'">
+                                        Được duyệt
+                                    </t>
+                                    <t t-if="approvals.state == 'Refused'">
+                                        Bị từ chối
+                                    </t>
+                                    <t t-if="approvals.state == 'Cancel'">
+                                        Hủy
+                                    </t>
+                                </p>
+                            
+                                <p><t t-esc="approvals.user_id.name" /></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- table -->
+    <template id="report_proposal_approval_tables">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                <!-- products -->
+                    <table class="table table-lg table-bordered border-dark table-repor table-responsive" t-if="o.item_ids" >
+                        <thead> 
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Yêu cầu</th>
+                                <th>Xuất xứ</th>
+                                <th>ĐVT</th>
+                                <th>SL</th>
+                                <th>Giá</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.item_ids" t-as="products">
+                                <td >
+                                    <span t-att-style="style" t-esc="products.product_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-att-style="style" t-esc="products.description"/>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span t-att-style="style" t-esc="products.quantity"/>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- tt items  -->
+                    <table class="table table-lg table-bordered border-dark table-repor table-responsive" t-if="o.tt_line_ids" >
+                        <thead> 
+                            <tr>
+                                <th style="width: 10%;font-size: var(--body-font-size);" >Mã vật tư</th>
+                                <th style="width: 18%;font-size: var(--body-font-size);">Tên sản phẩm</th>
+                                <th style="width: 6%;font-size: var(--body-font-size);">Yêu cầu</th>
+                                <th style="width: 6%;font-size: var(--body-font-size);">Xuất xứ</th>
+                                <th style="width: 10%;font-size: var(--body-font-size);">Số lượng</th>
+                                <th style="width: 10%;font-size: var(--body-font-size);">ĐVT</th>
+                                <th style="width: 50%;font-size: var(--body-font-size);">Ghi chú </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.tt_line_ids" t-as="items">
+                                <td>
+                                    <span style="font-size: var(--body-font-size);" t-if="items.state == 'Approved'" t-att-style="style" t-esc="items.masp"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: var(--body-font-size);"  t-if="items.state == 'Approved'" t-att-style="style" t-esc="items.name"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: var(--body-font-size);"  t-if="items.state == 'Approved'" t-att-style="style" t-esc="items.yckt"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: var(--body-font-size);"  t-if="items.state == 'Approved'" t-att-style="style" t-esc="items.xuatxu"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: var(--body-font-size);" t-if="items.state == 'Approved'" t-att-style="style" t-esc="items.quantity"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: var(--body-font-size);" t-if="items.state == 'Approved'" t-att-style="style" t-esc="items.Uom"/>
+                                </td>
+                                <td>
+                                    <!-- <span t-if="items.state == 'Approved'" t-att-style="style" t-esc="items.node"/> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+
+    <!-- information -->
+    <template id="report_proposal_approval_informations">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div style="margin-top:-15px;font-weight: normal;" class="row" >
+                        <t t-if="o.reason_wl">
+                            <p class="col-8" style="font-size: var(--body-font-size);" >
+                                Lý do: 
+                                <t t-if="o.reason_wl == 'CongViec'">
+                                    Công Việc
+                                </t>
+                                <t t-if="o.reason_wl == 'CaNhan'" >
+                                    Cá Nhân
+                                </t>
+                            </p>
+                        </t>
+                        <t t-if="o.date_start">
+                            <p class="col-4" style="font-size: var(--body-font-size);" >Giờ ra: <t t-esc="o.date_start" t-options="{'widget': 'datetime'}" class="m-0" /></p>
+                        </t>
+                    </div>
+                    <div style="margin-top:-15px;font-weight: normal;" class="row" >
+                        <p class="col-8"></p>
+                        <t t-if="o.date_end">
+                            <p class="col-4" style="font-size: var(--body-font-size);" >Giờ ra: <t t-esc="o.date_end" t-options="{'widget': 'datetime'}" class="m-0" /></p>
+                        </t>
+                    </div>
+                    <div style="margin-top:-15px;font-weight: normal;" >
+                        <t t-if="o.description">
+                            <div style="font-size: var(--body-font-size);" >Thông tin chi tiết:  <t t-esc="o.description" /> </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- pdf title  -->
+    <template id="report_proposal_approval_titles">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div style="text-align: center;font-size: 34px;font-weight: bold;margin-top:-50px;text-transform: uppercase">
+                        <p style="font-size: var(--body-font-size);"><t t-esc="o.type_id.name"/></p> 
+                    </div>
+                    <div style="text-align: center;font-size: 18px;font-weight: bold;margin-top:-15px;">
+                        <p style="font-size: var(--body-font-size);">Số phiếu: <t t-esc="o.code"/></p>
+                    </div>
+                    <div style="margin-top:-15px;font-weight: normal;" class="row">
+                        <p class="col-8" style="font-size: var(--body-font-size);">Thông tin phiếu: <t t-esc="o.name" class="m-0"/>  </p>
+                        <t t-if="o.request_date">
+                            <p class="col-4" style="font-size: var(--body-font-size);" >Thời gian tạo phiếu: <t t-esc="o.request_date" t-options="{'widget': 'datetime'}" class="m-0" /></p>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    
+    <!-- main pdf -->
+    <template id="report_proposal_approval">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+               <t t-call="web.external_layout">
+                    <div class="page" >
+                        <link rel='stylesheet' href='/multi_level_approval/static/src/css/report.css'/>                    
+                        <t class="report-printer-font-size" t-call="multi_level_approval.report_proposal_approval_titles"  />
+                        <t class="report-printer-font-size" t-call="multi_level_approval.report_proposal_approval_informations"  />
+                        <t class="report-printer-font-size" t-call="multi_level_approval.report_proposal_approval_tables"  />
+                        <t class="report-printer-font-size" t-call="multi_level_approval.report_proposal_approvals"  />
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

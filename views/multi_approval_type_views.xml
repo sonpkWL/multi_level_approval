@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="multi_approval_type_view_tree" model="ir.ui.view">
+        <field name="name">multi_approval_type_view_tree</field>
+        <field name="model">multi.approval.type</field>
+        <field name="arch" type="xml">
+            <tree string="Approval Types" import="false">
+                <field name="name" />
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="multi_approval_type_view_form" model="ir.ui.view">
+        <field name="name">multi_approval_type_view_form</field>
+        <field name="model">multi.approval.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="active" invisible="1" />
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}" />
+                    <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image&quot;, &quot;size&quot;: [80, 80]}" />
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" placeholder="Approvals Type" />
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="description" />
+                        <field name="nhamaywl_opt"/>
+                        <field name="NM_opt"/>
+                    </group>
+                    <notebook>
+                        <page string="Options" name="options">
+                            <group string="Fields" name="option_settings">
+                                <group>
+                                    <field name="document_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="contact_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="date_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="period_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="reason_wl_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="item_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="product_category_opt" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="multi_items_opt" widget="radio" options="{'horizontal': true}" />
+                                </group>
+                                <group>
+                                    <field name="quantity_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="amount_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="payment_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="reference_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="location_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="nhamay_wl_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="warehouse_wl_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="tt_opt" widget="radio" options="{'horizontal': true}" />
+                                    <field name="xuong_opt" widget="radio" options="{'horizontal': true}" />
+                                </group>
+<!--                                <div colspan="8" >-->
+<!--                                    <field name="properties" nolabel="1" columns="2" hideKanbanOption="1"/>-->
+<!--                                </div>-->
+                            </group>
+                            <group string="manager_approval" name="manager_approval">
+                                <group>
+                                    <field name="manager_approval"></field>
+                                    <field name="quanly_approval"></field>
+                                    <field name="warehouse_approval"></field>
+                                </group>
+                                <group>
+                                    <field name="manager_name"></field>
+                                    <field name="quanly_name"></field>
+                                    <field name="warehouse_name"></field>
+                                </group>
+                                <group>
+                                    <field name="manager_stt"></field>
+                                    <field name="quanly_stt"></field>
+                                    <field name="warehouse_stt"></field>
+                                </group>
+                            </group>
+                            <group string="Approvers" name="approvers">
+                                <group>
+                                    <field name="approval_minimum" string="Người phê duyệt"/>
+                                    <field name="type_approval"/>
+                                </group>
+
+<!--                                    <separator colspan="2"/>-->
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+    <!--                                        <field name="existing_user_ids" invisible="1"/>-->
+                                        <field name="sequence" widget="handle" />
+                                        <field name="stt"/>
+                                        <field name="name" optional="hidden"/>
+                                        <field name="nhamaywl" widget="many2many_tags" optional="show"/>
+                                        <field name="xuong" widget="many2many_tags" optional="show"/>
+                                        <field name="product_category" optional="hidden"/>
+                                        <field name="user_id_approval" />
+                                        <field name="user_id" optional="show" />
+                                        <field name="require_opt" optional="hidden"/>
+                                        <field name="type_values" optional="show"/>
+                                        <field name="gt1" optional="show"/>
+                                        <field name="gt2" attrs="{'readonly': [('type_values', '!=', 'between')]}" optional="show"/>
+                                        <field name="check_amount" optional="show"/>
+
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="approv_minimum" string="Người liên quan"/>
+                                </group>
+<!--                                    <separator colspan="2"/>-->
+                                <field name="approv_ids">
+                                    <tree editable="bottom">
+                                        <field name="existing_user_ids" invisible="1"/>
+                                        <field name="sequence" widget="handle" />
+                                        <field name="nhamaywl" widget="many2many_tags" optional="show"/>
+                                        <field name="xuong" widget="many2many_tags" optional="show"/>
+                                        <field name="product_category" optional="hidden"/>
+                                        <field name="name" optional="hidden"/>
+                                        <field name="user_id" />
+                                        <field name="department_id" />
+                                    </tree>
+                                </field>
+                            </group>
+                            <group name="xuong" string="Xưởng">
+                                <group>
+                                    <field name="xuong_minimum" string="Người liên quan"/>
+                                    <field name="user_xuong_opt"/>
+                                </group>
+<!--                                    <separator colspan="2"/>-->
+                                <field name="xuong_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="name" optional="show"/>
+                                        <field name="nhamaywl" widget="many2many_tags" optional="show"/>
+                                        <field name="xuong" widget="many2many_tags" />
+                                        <field name="product_category" optional="hidden"/>
+                                        <field name="existing_user_ids" invisible="1"/>
+                                        <field name="user_id" />
+                                        <field name="department_id" />
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Other Information" name="page_other">
+                            <group>
+                                <group>
+                                    <field name="mail_notification"/>
+                                    <field name="mail_template_id"
+                                        attrs="{'invisible': [('mail_notification', '=', False)]}"
+                                        domain="[('model_id.model', '=', 'multi.approval')]"/>
+                                    <field name="approve_mail_template_id"
+                                        attrs="{'invisible': [('mail_notification', '=', False)]}"
+                                        domain="[('model_id.model', '=', 'multi.approval')]"/>
+                                    <field name="refuse_mail_template_id"
+                                        attrs="{'invisible': [('mail_notification', '=', False)]}"
+                                        domain="[('model_id.model', '=', 'multi.approval')]"/>
+                                </group>
+                                <group>
+                                    <field name="activity_notification"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="multi_approval_type_view_kanban" model="ir.ui.view">
+        <field name="name">multi_approval_type_view_kanban</field>
+        <field name="model">multi.approval.type</field>
+        <field name="arch" type="xml">
+            <kanban class="o_modules_kanban" import="false">
+                <field name="name" />
+                <field name="id" />
+                <field name="image" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_module_vignette">
+                            <t t-if="record.id">
+                                <img t-att-src="kanban_image('multi.approval.type', 'image', record.id.raw_value)" alt="Approval Type Image" class="oe_kanban_avatar float-left mr-3" width="64"
+                                    height="64" />
+                            </t>
+                            <div class="oe_module_desc">
+                                <div role="menuitem">
+                                    <a type="edit" class="o_kanban_manage_toggle_button float-right" style="float: right;" href="#" groups="multi_level_approval.group_approval_manager"><i class="fa fa-edit" role="img" aria-label="Manage" title="Manage"/></a>
+                                </div>
+                                <h4 class="o_kanban_record_title">
+                                    <field name="name" />
+                                </h4>
+                                <p class="oe_module_name">
+                                    <field name="description" />
+                                </p>
+                                <div class="oe_module_action" t-if="!selection_mode">
+                                    <button type="object" class="btn btn-primary btn-sm" name="create_request" context="{'type_id':'active_id'}">Create New Request</button>
+                                    <button type="object" class="btn btn-sm btn-secondary float-right" name="open_submitted_request" groups="multi_level_approval.group_approval_user">
+                                        To Review:
+                                        <field name="submitted_nb" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

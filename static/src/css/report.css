@@ -1,0 +1,19 @@
+.table-report {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-report table {
+    border: 1px solid;
+}
+.table-report td {
+    border: 1px solid;
+    padding: 15px;
+}
+.table-report th {
+    border: 1px solid;
+    padding: 15px;
+}
+.report-printer-font-size {
+    font-size: medium;
+    width: 1000px;
+}

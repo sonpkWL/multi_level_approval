@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_multi_approval_van_phong_pham_view_tree" model="ir.ui.view">
+        <field name="name">report_multi_approval_van_phong_pham_view_tree</field>
+        <field name="model">report.multi.approval.van.phong.pham</field>
+        <field name="arch" type="xml">
+            <tree string="Approvals" import="false">
+                <field name="code"/>
+                <field name="name" />
+                <field name="mnv"/>
+                <field name="description" optional="hidden"/>                
+                <field name="request_date" />                
+                <field name="state" />                
+                <field name="user_id" optional="hidden"/>                
+                <field name="nhamaywl"/>                
+                <field name="type_id"/>                
+                <field name="line_id"/>                
+                <field name="pic_id"/>                
+                <field name="deadline" optional="hidden"/>                
+                <field name="priority"/>                
+                <field name="name_item"/>                
+                <field name="Uom"/>                
+                <field name="quantity"/>                
+                <field name="yckt" optional="hidden"/>                
+                <field name="xuatxu"/>                
+                <field name="bpsd" optional="hidden"/>                
+                <field name="masp"/>                
+                <field name="comment"/>                
+                <field name="item_state"/>                
+            </tree>
+        </field>
+    </record>
+    <record id="report_multi_approval_van_phong_pham_view_filter" model="ir.ui.view">
+        <field name="name">report_multi_approval_van_phong_pham_view_filter</field>
+        <field name="model">report.multi.approval.van.phong.pham</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="mnv"/>
+                <field name="request_date"/>
+                <field name="description"/>
+                <field name="state"/>
+                <field name="user_id"/>
+                <field name="nhamaywl"/>
+                <field name="type_id"/>
+                <field name="line_id"/>
+                <field name="pic_id"/>
+                <field name="deadline"/>
+                <field name="priority"/>
+                <field name="name_item"/>
+                <field name="Uom"/>
+                <field name="quantity"/>
+                <field name="yckt"/>
+                <field name="xuatxu"/>
+                <field name="bpsd"/>
+                <field name="masp"/>
+                <field name="comment"/>
+                <field name="item_state"/>
+            </search>
+        </field>
+    </record>
+    
+
+</odoo>

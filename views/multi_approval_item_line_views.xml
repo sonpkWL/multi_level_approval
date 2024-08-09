@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="multi_approval_item_line_view_tree" model="ir.ui.view">
+        <field name="name">multi.approval.item.line.view.tree</field>
+        <field name="model">multi.approval.item.line</field>
+        <field name="type">tree</field>
+        <!-- This priority should be lower than the regular list view,
+        so studio takes it instead of the regular view,
+        which is embedded in a form view by default -->
+<!--        <field name="priority">10</field>-->
+        <field name="arch" type="xml">
+            <tree editable="bottom" string="Items">
+                <field name="multi_approval_id" invisible="1"/>
+                <field name="masp"/>
+                <field name="name"/>
+                <field name="yckt" optional="show"/>
+                <field name="xuatxu" optional="show"/>
+                <field name="quantity"/>
+                <field name="Uom" optional="show"/>
+                <field name="bpsd" optional="show"/>
+                <field name="comment" optional="show"/>
+                <field name="approval_state" invisible="1"/>
+                <field name="is_pic" invisible="1"/>
+                <field name="state" widget="badge" decoration-info="state == 'Refused'"
+                       decoration-warning="state == 'Submitted'"
+                       decoration-success="state == 'Approved'"/>
+                <button string="Approve" name="action_approve_item" type="object"
+                    icon="fa-thumbs-up"
+                    attrs="{'invisible': ['|',('approval_state', '!=', 'Submitted'), ('is_pic', '=', False)]}"/>
+                <button string="Refuse" name="action_refuse_item" type="object"
+                    icon="fa-times"
+                    attrs="{'invisible': ['|',('approval_state', '!=', 'Submitted'), ('is_pic', '=', False)]}"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
